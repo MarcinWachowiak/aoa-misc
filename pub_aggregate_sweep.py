@@ -100,11 +100,13 @@ for round_idx in n_meas:
     tmp_pha_std = list()
     for freq in freq_vec:
         pha_sampl_arr, pha_ss_arr = read_data_file(dir + "phase_mav_100k_bp_filtered_f_%d_round_%d.bin" % (freq, round_idx),sampl_rate,decimation)
+        indep_decim = 100
+        pha_sampl_arr = np.degrees(pha_sampl_arr[::indep_decim])
         tmp_pha_coeff.append(np.average(fw_replace_nan(np.array(pha_sampl_arr))))
         tmp_pha_std.append(np.std(fw_replace_nan(np.array(pha_sampl_arr))))
 
-    pha_coeff.append(np.degrees(tmp_pha_coeff))
-    pha_std.append(np.degrees(tmp_pha_std))
+    pha_coeff.append(tmp_pha_coeff)
+    pha_std.append(tmp_pha_std)
 
 print("\nFinished reading!\n")
 
@@ -114,8 +116,10 @@ print("\nFinished reading!\n")
 pha_coeff_mat = np.vstack(pha_coeff)
 pha_coeff_avg = np.mean(pha_coeff, axis=0)
 pha_std_col = np.std(pha_coeff, axis=0)
+print(pha_std_col)
 z_score_val = 1.96
 conf_interval = z_score_val * pha_std_col / np.sqrt(len(pha_coeff))
+print(conf_interval)
 
 fig, ax = plt.subplots()
 ax.plot(freq_vec/1e9, pha_coeff_avg)

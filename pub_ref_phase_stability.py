@@ -140,7 +140,7 @@ axs[1].grid(zorder=0)
 n_last_samples = int(40496 * 8/11)
 no_drift = ref_phase[-n_last_samples:]
 axs[1].hist(no_drift, bins=n_bins, weights=np.ones_like(no_drift)/(len(no_drift)), zorder=3, label="__nolegend__")
-axs[1].vlines(np.mean(no_drift), 0, 0.04, color='#f781bf', zorder=4, label=r"$\overline{\Delta\varphi}$=%1.2f$\pm$%1.3f$\degree$" %(np.mean(no_drift), np.mean(no_drift)*1.96*np.std(no_drift)/np.sqrt(len(no_drift))))
+axs[1].vlines(np.mean(no_drift), 0, 0.04, color='#f781bf', zorder=4, label=r"$\overline{\Delta\varphi}=%1.2f,\ \sigma=%1.2f\degree$" %(np.mean(no_drift), np.std(no_drift)))
 #axs[1].text(0.5, -0.2, "b)", transform=axs[1].transAxes, horizontalalignment = 'center', fontsize = 10)
 #axs[1].text(0.79, 0.92,(r"$\overline{\Delta\varphi} = %1.2f \pm %1.4f \degree$" % (np.mean(ref_phase), np.mean(ref_phase)*1.96*np.std(ref_phase)/np.sqrt(len(ref_phase)))), transform=axs[1].transAxes, fontsize=8, verticalalignment='bottom', bbox=props)
 axs[1].set_ylim([0,0.05])
