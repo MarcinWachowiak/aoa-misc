@@ -105,8 +105,8 @@ sampl_spacing = sampl_spacing*decim
 fig, axs = plt.subplots(2,1)
 props = dict(boxstyle="round", fc="w", ec="0.5", alpha=0.9)
 n_bins = 100
-
-axs[0].set_xlabel("Time [h] \n a)")
+#axs[0].set_title("a)")
+axs[0].set_xlabel("Time [h]")
 axs[0].set_ylabel('Phase difference [$\degree$]')
 
 timebase = np.linspace(0,sampl_spacing*len(ref_phase),len(ref_phase))
@@ -133,7 +133,8 @@ axs[0].set_ylim([8.7,9.2])
 #axs[0].text(0.5,-0.2, "a)", transform=axs[0].transAxes, horizontalalignment = 'center', fontsize = 10)
 axs[0].yaxis.set_major_locator(MaxNLocator(6)) 
 
-axs[1].set_xlabel('Phase difference [$\degree$] \n b)')
+#axs[0].set_title("b)")
+axs[1].set_xlabel('Phase difference [$\degree$]')
 axs[1].set_ylabel('Probability')
 axs[1].grid(zorder=0)
 #skip initial 3h from avg calculation

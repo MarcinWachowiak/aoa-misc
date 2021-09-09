@@ -162,8 +162,8 @@ fig, ax = plt.subplots()
 ax.grid()
 ref_deg = np.degrees(ref)
 
-ref_plot = ax.hlines(ref_deg,0,60, 'k', label = "Ref")
-scatt3 = ax.scatter(att_vec, np.degrees(indep_pha), zorder = 5, label = "Sep TX",s =dot_size, color = "#4daf4a" )
+ref_plot = ax.hlines(ref_deg,0,60, 'k', label = "Ref.")
+scatt3 = ax.scatter(att_vec, np.degrees(indep_pha), zorder = 5, label = "Sep. TX",s =dot_size, color = "#4daf4a" )
 
 scatt1 = ax.scatter(att_vec, np.degrees(pha_coeff_uut0), zorder = 5, label = "TX0", s=dot_size)
 scatt2 = ax.scatter(att_vec, np.degrees(pha_coeff_uut1), zorder = 6, label = "TX1",s =dot_size)

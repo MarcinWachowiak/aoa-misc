@@ -26,7 +26,7 @@ rc('text.latex', preamble=r'\usepackage{gensymb}')
 inches_per_pt = 1.0/72.27               # Convert pt to inches
 golden_mean = (np.sqrt(5)-1.0)/2.0      # Aesthetic ratio
 fig_width = 2.3622  # width in inches
-fig_height =fig_width*golden_mean*1.4       # height in inches
+fig_height =fig_width*golden_mean*1.3       # height in inches
 fig_size = [fig_width,fig_height]
 
 params = {'backend': 'ps',
@@ -146,13 +146,13 @@ plt.tight_layout()
 
 plot1 =  ax1.plot(rx1_gain_vec, np.degrees(pha_coeff_uut[0]), label = "20")
 plot2 =  ax1.plot(rx1_gain_vec, np.degrees(pha_coeff_uut[1]), label = "37")
-plot3 =  ax1.plot(rx1_gain_vec, np.degrees(pha_eq_gains), ls=(0, (1, 1)) ,label = "RX1", color = '#f781bf', alpha = 0.85)
+#plot3 =  ax1.plot(rx1_gain_vec, np.degrees(pha_eq_gains), ls=(0, (1, 1)) ,label = "RX1", color = '#984ea3', alpha = 0.85)
 
-ax1.set_xlabel("RX1 Gain [dB]")
+ax1.set_xlabel("RX1 gain [dB]")
 ax1.set_ylabel('Phase difference [$\degree$]')
 ax1.set_ylim([-190,190])
 ax1.set_xlim([0,76])
-ax1.legend(rx0_gain_vec,title="RX0 [dB]", loc = 2)
+ax1.legend(rx0_gain_vec,title="RX0 gain", loc = 'upper left')
 ax1.yaxis.set_major_locator(MaxNLocator(7))
 ax1.xaxis.set_major_locator(MaxNLocator(6)) 
 
@@ -160,13 +160,14 @@ ilna_gain = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3
 mixer_gain = [0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
 ax2 = ax1.twinx()
 plot4 = ax2.plot(rx1_gain_vec, ilna_gain, '--', label = "iLNA", color = "k")
-plot5 = ax2.plot(rx1_gain_vec, mixer_gain, '--', label = "Mixer", color = "g")
+plot5 = ax2.plot(rx1_gain_vec, mixer_gain, '--', label = "Mixer", color = "m")
 ax2.set_ylabel("IC gain [dB]")
+ax2.legend(title="IC gain", loc = (0.59, 0.1))
 
-plots = plot1+plot2+plot3+plot4+plot5
-labs = [l.get_label() for l in plots]
-leg = ax1.legend(plots, labs,loc=(0.09,-0.7) ,title="RX0 [dB]", ncol= 2)
-leg._legend_box.align = "left"
+# plots = plot1+plot2+plot3+plot4+plot5
+# labs = [l.get_label() for l in plots]
+# leg = ax1.legend(plots, labs,loc=(0.09,-0.7) ,title="RX0 [dB]", ncol= 2)
+# leg._legend_box.align = "left"
 
 ax2.yaxis.set_major_locator(MaxNLocator(6))
 
@@ -195,15 +196,90 @@ plt.tight_layout()
 
 plot3 =  ax1.plot(rx1_gain_vec, np.degrees(pha_eq_gains), label = "RX0=RX1", color = '#4daf4a')
 
-ax1.set_xlabel("RX0 and RX1 Gain [dB]")
+ax1.set_xlabel("RX0 and RX1 gain [dB]")
 ax1.set_ylabel('Phase difference [$\degree$]')
 # ax1.set_ylim([-190,190])
 ax1.set_xlim([0,76])
 ax1.yaxis.set_major_locator(MaxNLocator(10))
 ax1.xaxis.set_major_locator(MaxNLocator(6)) 
 
+ax2 = ax1.twinx()
+plot4 = ax2.plot(rx1_gain_vec, ilna_gain, '--', label = "iLNA", color = "k")
+plot5 = ax2.plot(rx1_gain_vec, mixer_gain, '--', label = "Mixer", color = "m")
+ax2.set_ylabel("IC gain [dB]")
+ax2.legend(title="IC gain", loc = (0.015, 0.50))
 
 plt.savefig("same_gain_sweep.pdf",dpi=600,bbox_inches = 'tight')
 plt.show()
+
+# %%
+#single column plots
+
+inches_per_pt = 1.0/72.27               # Convert pt to inches
+golden_mean = (np.sqrt(5)-1.0)/2.0      # Aesthetic ratio
+fig_width = 2.3622  # width in inches
+fig_height =fig_width*golden_mean*2.5       # height in inches
+fig_size = [fig_width,fig_height]
+
+params = {'backend': 'ps',
+          'axes.labelsize': 8,
+          'font.size': 8,
+          'legend.fontsize': 8,
+          'xtick.labelsize': 7,
+          'ytick.labelsize': 7,
+          'text.usetex': True,
+          'figure.figsize': fig_size}
+
+mpl.rcParams.update(params)
+
+
+fig, ax1 = plt.subplots(2,1)
+plt.grid()
+plt.tight_layout(h_pad=3)
+
+plot1 =  ax1[0].plot(rx1_gain_vec, np.degrees(pha_coeff_uut[0]), label = "20")
+plot2 =  ax1[0].plot(rx1_gain_vec, np.degrees(pha_coeff_uut[1]), label = "37")
+#plot3 =  ax1[0].plot(rx1_gain_vec, np.degrees(pha_eq_gains), ls=(0, (1, 1)) ,label = "RX1", color = '#984ea3', alpha = 0.85)
+
+ax1[0].set_xlabel("a) RX1 gain [dB]")
+ax1[0].set_ylabel('Phase difference [$\degree$]')
+ax1[0].set_ylim([-190,190])
+ax1[0].set_xlim([0,76])
+ax1[0].legend(rx0_gain_vec,title="RX0 gain", loc = 'upper left')
+ax1[0].yaxis.set_major_locator(MaxNLocator(7))
+ax1[0].xaxis.set_major_locator(MaxNLocator(6)) 
+ax1[0].grid()
+ilna_gain = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 14, 14, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21]
+mixer_gain = [0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+ax2 = ax1[0].twinx()
+plot4 = ax2.plot(rx1_gain_vec, ilna_gain, '--', label = "iLNA", color = "k")
+plot5 = ax2.plot(rx1_gain_vec, mixer_gain, '--', label = "Mixer", color = "m")
+ax2.set_ylabel("IC gain [dB]")
+ax2.legend(title="IC gain", loc = (0.59, 0.1))
+ax2.yaxis.set_major_locator(MaxNLocator(6))
+
+# plots = plot1+plot2+plot3+plot4+plot5
+# labs = [l.get_label() for l in plots]
+# leg = ax1[1].legend(plots, labs,loc=(0.09,-0.7) ,title="RX0 [dB]", ncol= 2)
+# leg._legend_box.align = "left"
+
+plot3 =  ax1[1].plot(rx1_gain_vec, np.degrees(pha_eq_gains), label = "RX0=RX1", color = '#4daf4a')
+
+ax1[1].set_xlabel("b) RX0 and RX1 gain [dB]")
+ax1[1].set_ylabel('Phase difference [$\degree$]')
+# ax1[1].set_ylim([-190,190])
+ax1[1].set_xlim([0,76])
+ax1[1].yaxis.set_major_locator(MaxNLocator(10))
+ax1[1].xaxis.set_major_locator(MaxNLocator(6)) 
+
+ax2 = ax1[1].twinx()
+plot4 = ax2.plot(rx1_gain_vec, ilna_gain, '--', label = "iLNA", color = "k")
+plot5 = ax2.plot(rx1_gain_vec, mixer_gain, '--', label = "Mixer", color = "m")
+ax2.set_ylabel("IC gain [dB]")
+ax2.legend(title="IC gain", loc = (0.015, 0.50))
+
+plt.savefig("combined_gain_sweeps.pdf",dpi=600,bbox_inches = 'tight')
+plt.show()
+
 
 # %%

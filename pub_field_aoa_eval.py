@@ -38,7 +38,7 @@ params = {'backend': 'ps',
 
 mpl.rcParams.update(params)
 mpl.rcParams["font.family"] = ["Latin Modern Roman"]
-
+mpl.rcParams["legend.borderpad"] = 0.2
 #!python numbers=disable
 #pylab.axes([0.125,0.2,0.95-0.125,0.95-0.2])
 plt.rcParams['path.simplify'] = True
@@ -211,7 +211,6 @@ for file in aoa_err_files:
 for file in aoa_mov_err_files:
     aoa, _ = read_data_file(dir_name+ file,sampl_rate,decimation)
     aoa_err_mov.append(fw_replace_nan(trim_data(np.array(aoa),n_skip_samples)))
-    
 print("\nFinished reading!\n")
 
 #%%
@@ -223,7 +222,7 @@ ax1.set_xlim([-10,10])
 ax1.set_ylim([0.0,0.05])
 
 ax1.set_title("Source at $90\degree$")
-ax1.legend([r"$\overline{\theta}_{stat}=%1.1f\pm%1.1f\degree $" %(np.mean(aoa_err[0]), np.std(aoa_err[0])/2), r"$\overline{ \theta}_{mov}=%1.1f\pm%1.1f \degree$" %(np.mean(aoa_err_mov[0]), np.std(aoa_err_mov[0])/2)])
+ax1.legend([r"$\overline{\theta}_{stat.}=%1.1f, \sigma=%1.1f\degree $" %(np.mean(aoa_err[0]), np.std(aoa_err[0])), r"$\overline{\theta}_{mov.}=%1.1f, \sigma=%1.1f \degree$" %(np.mean(aoa_err_mov[0]), np.std(aoa_err_mov[0]))])
 ax1.set_ylabel("Probability")
 ax1.set_xlabel('AoA error [$\degree$]')
 ax1.grid(zorder=0)
@@ -237,7 +236,7 @@ ax2.set_ylabel("Probability")
 
 ax2.set_title("Source at $135\degree$")
 ax2.set_xlabel('AoA error [$\degree$]')
-ax2.legend([r"$\overline{\theta}_{stat}=%1.1f\pm%1.1f\degree$" %(np.mean(aoa_err[1]), np.std(aoa_err[1])/2), r"$\overline{\theta}_{mov}=%1.1f\pm %1.1f\degree $" %(np.mean(aoa_err_mov[1]), np.std(aoa_err_mov[1])/2)])
+ax2.legend([r"$\overline{\theta}_{stat.}=%1.1f, \sigma=%1.1f\degree$" %(np.mean(aoa_err[1]), np.std(aoa_err[1])), r"$\overline{\theta}_{mov.}=%1.1f, \sigma= %1.1f\degree $" %(np.mean(aoa_err_mov[1]), np.std(aoa_err_mov[1]))])
 plt.tight_layout()
 plt.savefig("aoa_field_accuracy.pdf",dpi=600,bbox_inches = 'tight')
 plt.show()
