@@ -82,7 +82,7 @@ print("\nFinished declaring functions!\n")
 #Read AoA values from files
 sampl_rate = int(1e6)
 decim = int(1024)
-dir = "/home/marcin/Desktop/aoa_variance_eval/"
+dir = "/home/marcin/Desktop/aoa_pub_files/aoa_variance_eval/"
 ref_err = read_data_file(dir+"ref_90_deg.bin",sampl_rate,decim)
 movement_err = read_data_file(dir+"movement_90_deg.bin",sampl_rate,decim)
 act_filter_err = read_data_file(dir+"filter_90_deg.bin",sampl_rate,decim)

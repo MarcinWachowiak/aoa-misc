@@ -86,7 +86,7 @@ decimation = int(1e3)
 
 att_vec = [0, 10, 20, 31, 40, 50, 60]
 
-dir = "/home/marcin/Desktop/crosstalk_eval/tx0/"
+dir = "/home/marcin/Desktop/aoa_pub_files/crosstalk_eval/tx0/"
 pha_coeff_uut0 = list()
 pha_std_uut0 = list()
 mag_uut0 = list()
@@ -99,7 +99,7 @@ for attenuation in att_vec:
         mag_sampl_arr, pha_ss_arr = read_data_file(dir + "mag_ch0_mav_100k_bp_filtered_rx0_40_rx1_40_tx_45.0_freq_2440000000_att_%d_round_0.bin" %(int(attenuation)),sampl_rate,decimation)
         mag_uut0.append(np.average(fw_replace_nan(np.array(mag_sampl_arr))))
 
-dir = "/home/marcin/Desktop/crosstalk_eval/tx1/"
+dir = "/home/marcin/Desktop/aoa_pub_files/crosstalk_eval/tx1/"
 pha_coeff_uut1 = list()
 pha_std_uut1 = list()
 mag_uut1 = list()
@@ -113,7 +113,7 @@ for attenuation in att_vec:
         mag_uut1.append(np.average(fw_replace_nan(np.array(mag_sampl_arr))))
 
 att_vec = np.array([0, 10, 20, 30, 40, 50, 60])
-dir = "/home/marcin/Desktop/crosstalk_eval/indep_tx/"
+dir = "/home/marcin/Desktop/aoa_pub_files/crosstalk_eval/indep_tx/"
 indep_pha = list()
 for attenuation in att_vec:
         pha_sampl_arr, pha_ss_arr = read_data_file(dir + "phase_mav_100k_bp_filtered_rx0_40_rx1_40_tx_45.0_freq_2440000000_att_%d_round_0.bin" %(int(attenuation)),sampl_rate,decimation)
@@ -125,7 +125,7 @@ att_vec = np.array([0, 10, 20, 30, 40, 50, 60])
 
 ref = np.average(indep_pha[:4])
 
-mag_samp_array0, pha_ss_arr = read_data_file("/home/marcin/Desktop/crosstalk_eval/tx0/mag_ch0_mav_100k_bp_filtered_rx0_40_rx1_40_tx_45.0_freq_2440000000_att_99_round_0.bin",sampl_rate,decimation)
+mag_samp_array0, pha_ss_arr = read_data_file("/home/marcin/Desktop/aoa_pub_files/crosstalk_eval/tx0/mag_ch0_mav_100k_bp_filtered_rx0_40_rx1_40_tx_45.0_freq_2440000000_att_99_round_0.bin",sampl_rate,decimation)
 cross_mag0 = np.average(fw_replace_nan(np.array(mag_samp_array0)))
 print("cross_mag0")
 print(cross_mag0)
@@ -139,7 +139,7 @@ print(mag_uut0)
 
 print("\n")
 
-mag_samp_array1, pha_ss_arr = read_data_file("/home/marcin/Desktop/crosstalk_eval/tx1/mag_ch1_mav_100k_bp_filtered_rx0_40_rx1_40_tx_45.0_freq_2440000000_att_99_round_0.bin",sampl_rate,decimation)
+mag_samp_array1, pha_ss_arr = read_data_file("/home/marcin/Desktop/aoa_pub_files/crosstalk_eval/tx1/mag_ch1_mav_100k_bp_filtered_rx0_40_rx1_40_tx_45.0_freq_2440000000_att_99_round_0.bin",sampl_rate,decimation)
 cross_mag1 = np.average(fw_replace_nan(np.array(mag_samp_array1)))
 print("cross_mag1")
 print(cross_mag1)
@@ -162,25 +162,25 @@ fig, ax = plt.subplots()
 ax.grid()
 ref_deg = np.degrees(ref)
 
-ref_plot = ax.hlines(ref_deg,0,60, 'k', label = "Ref.")
+#ref_plot = ax.hlines(ref_deg,0,60, 'k', label = "Ref.")
 scatt3 = ax.scatter(att_vec, np.degrees(indep_pha), zorder = 5, label = "Sep. TX",s =dot_size, color = "#4daf4a" )
 
-scatt1 = ax.scatter(att_vec, np.degrees(pha_coeff_uut0), zorder = 5, label = "TX0", s=dot_size)
-scatt2 = ax.scatter(att_vec, np.degrees(pha_coeff_uut1), zorder = 6, label = "TX1",s =dot_size)
+scatt1 = ax.scatter(att_vec, np.degrees(pha_coeff_uut0), zorder = 5, label = "CH0-TX", s=dot_size)
+scatt2 = ax.scatter(att_vec, np.degrees(pha_coeff_uut1), zorder = 6, label = "CH1-TX",s =dot_size)
 
 
 print("Calibration error:")
 print(np.degrees(pha_coeff_uut0-ref))
 print(np.degrees(pha_coeff_uut1-ref))
 
-leg1 = ax.legend(loc='lower left',ncol=2, columnspacing=0.5)
+leg1 = ax.legend(loc='lower left', columnspacing=0.5, handletextpad=0.1)
 ba0 =np.divide(cross_mag0,mag_uut0)
 print(ba0)
 err0 = np.where(ba0 == np.inf, 2, np.arctan(ba0))
 err0_deg = np.degrees(err0)
 print(err0_deg)
 
-fill1 = ax.fill_between(att_vec, (ref_deg-err0_deg),(ref_deg+err0_deg), alpha=0.5, color = '#377eb8', zorder = 4, label = "BD0")
+fill1 = ax.fill_between(att_vec, (ref_deg-err0_deg),(ref_deg+err0_deg), alpha=0.5, color = '#377eb8', zorder = 4, label = "bound CH0-TX")
 
 ba1 =np.divide(cross_mag1,mag_uut1)
 print(ba1)
@@ -188,11 +188,11 @@ err1 = np.where(ba1 == np.inf, 2, np.arctan(ba1))
 err1_deg = np.degrees(err1)
 print(err1_deg)
 
-fill2 = ax.fill_between(att_vec, (ref_deg-err1_deg), (ref_deg+err1_deg), alpha=0.5, color = '#ff7f00', zorder = 3, label = "BD1")
+fill2 = ax.fill_between(att_vec, (ref_deg-err1_deg), (ref_deg+err1_deg), alpha=0.5, color = '#ff7f00', zorder = 3, label = "bound CH1-TX")
 ax.set_xlabel("Attenuation [dB]")
 ax.set_ylabel('Measured phase difference [$\degree$]')
 
-leg2 = ax.legend(["__nolegend__","__nolegend__","__nolegend__","__nolegend__","BD0", "BD1"],loc='upper left')
+leg2 = ax.legend(["__nolegend__","__nolegend__","__nolegend__","bound CH0-TX", "bound CH1-TX"],loc='upper left')
 ax.add_artist(leg1)
 
 ax.set_xlim([0,60])

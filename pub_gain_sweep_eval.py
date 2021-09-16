@@ -40,6 +40,7 @@ params = {'backend': 'ps',
 
 mpl.rcParams.update(params)
 mpl.rcParams["font.family"] = ["Latin Modern Roman"]
+mpl.rcParams["legend.borderpad"] = 0.3
 
 
 #!python numbers=disable
@@ -85,7 +86,7 @@ print("\nFinished declaring functions!\n")
 sampl_rate = int(1e6)
 decimation = int(1e3)
 
-dir = "/home/marcin/Desktop/gain_sweep_eval/"
+dir = "/home/marcin/Desktop/aoa_pub_files/gain_sweep_eval/"
 
 tx_gain = 40 #does not cause saturation at 76, increased variance below 20dB...
 center_freq = 2.44e+9
@@ -121,7 +122,7 @@ for round_idx in meas_range:
         pha_std_uut.append(tmp_pha_std)
 
 #read phase for equal RX gains
-dir = "/home/marcin/Desktop/gain_sweep_eval/eq_gains/"
+dir = "/home/marcin/Desktop/aoa_pub_files/gain_sweep_eval/eq_gains/"
 pha_eq_gains = list()
 for round_idx in meas_range:
     tmp_pha_coeff = list()
@@ -148,11 +149,11 @@ plot1 =  ax1.plot(rx1_gain_vec, np.degrees(pha_coeff_uut[0]), label = "20")
 plot2 =  ax1.plot(rx1_gain_vec, np.degrees(pha_coeff_uut[1]), label = "37")
 #plot3 =  ax1.plot(rx1_gain_vec, np.degrees(pha_eq_gains), ls=(0, (1, 1)) ,label = "RX1", color = '#984ea3', alpha = 0.85)
 
-ax1.set_xlabel("RX1 gain [dB]")
+ax1.set_xlabel("CH1-RX2 gain [dB]")
 ax1.set_ylabel('Phase difference [$\degree$]')
 ax1.set_ylim([-190,190])
 ax1.set_xlim([0,76])
-ax1.legend(rx0_gain_vec,title="RX0 gain", loc = 'upper left')
+ax1.legend(rx0_gain_vec,title="CH0-RX2\ngain [dB]", loc = (0.02,0.56))
 ax1.yaxis.set_major_locator(MaxNLocator(7))
 ax1.xaxis.set_major_locator(MaxNLocator(6)) 
 
@@ -162,7 +163,7 @@ ax2 = ax1.twinx()
 plot4 = ax2.plot(rx1_gain_vec, ilna_gain, '--', label = "iLNA", color = "k")
 plot5 = ax2.plot(rx1_gain_vec, mixer_gain, '--', label = "Mixer", color = "m")
 ax2.set_ylabel("IC gain [dB]")
-ax2.legend(title="IC gain", loc = (0.59, 0.1))
+ax2.legend(title="IC gain", loc = (0.60, 0.1))
 
 # plots = plot1+plot2+plot3+plot4+plot5
 # labs = [l.get_label() for l in plots]
@@ -196,7 +197,7 @@ plt.tight_layout()
 
 plot3 =  ax1.plot(rx1_gain_vec, np.degrees(pha_eq_gains), label = "RX0=RX1", color = '#4daf4a')
 
-ax1.set_xlabel("RX0 and RX1 gain [dB]")
+ax1.set_xlabel("CH0-RX2 and CH1-RX2 gain [dB]")
 ax1.set_ylabel('Phase difference [$\degree$]')
 # ax1.set_ylim([-190,190])
 ax1.set_xlim([0,76])

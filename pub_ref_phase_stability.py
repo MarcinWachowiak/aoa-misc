@@ -24,7 +24,7 @@ rc('text.latex', preamble=r'\usepackage{gensymb}')
 inches_per_pt = 1.0/72.27               # Convert pt to inches
 golden_mean = (np.sqrt(5)-1.0)/2.0      # Aesthetic ratio
 fig_width = 2.3622  # width in inches
-fig_height =fig_width*golden_mean*2.0       # height in inches
+fig_height =fig_width*golden_mean*1.1       # height in inches
 fig_size = [fig_width,fig_height]
 
 params = {'backend': 'ps',
@@ -92,7 +92,7 @@ sampl_rate = int(1e6)
 decim = int(1000)
 resultant_sample_rate = sampl_rate/decim
 sampl_spacing = 1/(resultant_sample_rate)
-dir = "/home/marcin/Desktop/ref_phase_drift/"
+dir = "/home/marcin/Desktop/aoa_pub_files/ref_phase_drift/"
 ref_phase = read_data_file(dir+"phase_mav_100k_bp_filtered_f_2440000000_round_0.bin",sampl_rate,decim)
 #decimate obtained sample array
 decim_rate = 1000
@@ -102,15 +102,15 @@ sampl_spacing = sampl_spacing*decim
 
 #%%
 #Histogram comparsion group plot
-fig, axs = plt.subplots(2,1)
+fig, axs = plt.subplots(1,1)
 props = dict(boxstyle="round", fc="w", ec="0.5", alpha=0.9)
 n_bins = 100
-#axs[0].set_title("a)")
-axs[0].set_xlabel("Time [h]")
-axs[0].set_ylabel('Phase difference [$\degree$]')
+#axs.set_title("a)")
+axs.set_xlabel("Time [h]")
+axs.set_ylabel('Phase difference [$\degree$]')
 
 timebase = np.linspace(0,sampl_spacing*len(ref_phase),len(ref_phase))
-axs[0].plot(timebase, ref_phase, linewidth=0.1)
+axs.plot(timebase, ref_phase, linewidth=0.1)
 
 decimation_rate = 10
 timebase_decim = timebase[0:len(timebase):decimation_rate]
@@ -119,40 +119,47 @@ sampl_arr_decim = ref_phase[0:len(ref_phase):decimation_rate]
 poly_deg = 5
 poly_coeff = poly.polyfit(timebase_decim, sampl_arr_decim,poly_deg)
 ffit = poly.polyval(timebase_decim, poly_coeff)
-axs[0].plot(timebase_decim,ffit)
-axs[0].grid(zorder=0)
-axs[0].legend(['__nolegend__','Polynomial fit',])
+axs.plot(timebase_decim,ffit)
+axs.grid(zorder=0)
+axs.legend(['__nolegend__','Polynomial fit',])
 
 x_ticks_loc = (np.arange(min(timebase),max(timebase),3600))
 x_ticks_val = arr_get_hh(x_ticks_loc)
 
-axs[0].set_xticks(x_ticks_loc)
-axs[0].set_xticklabels(x_ticks_val)
-axs[0].set_xlim([min(x_ticks_loc),4*3600])
-axs[0].set_ylim([8.7,9.2])
-#axs[0].text(0.5,-0.2, "a)", transform=axs[0].transAxes, horizontalalignment = 'center', fontsize = 10)
-axs[0].yaxis.set_major_locator(MaxNLocator(6)) 
+axs.set_xticks(x_ticks_loc)
+axs.set_xticklabels(x_ticks_val)
+axs.set_xlim([min(x_ticks_loc),4*3600])
+axs.set_ylim([8.7,9.2])
+#axs.text(0.5,-0.2, "a)", transform=axs.transAxes, horizontalalignment = 'center', fontsize = 10)
+axs.yaxis.set_major_locator(MaxNLocator(6)) 
 
-#axs[0].set_title("b)")
-axs[1].set_xlabel('Phase difference [$\degree$]')
-axs[1].set_ylabel('Probability')
-axs[1].grid(zorder=0)
+plt.tight_layout()
+plt.savefig("ref_phase_drift.pdf",dpi=600,bbox_inches = 'tight')
+plt.show()
+
+#Histogram comparsion group plot
+fig, axs = plt.subplots(1,1)
+props = dict(boxstyle="round", fc="w", ec="0.5", alpha=0.9)
+n_bins = 100
+#axs.set_title("b)")
+axs.set_xlabel('Phase difference [$\degree$]')
+axs.set_ylabel('Probability')
+axs.grid(zorder=0)
 #skip initial 3h from avg calculation
 n_last_samples = int(40496 * 8/11)
 no_drift = ref_phase[-n_last_samples:]
-axs[1].hist(no_drift, bins=n_bins, weights=np.ones_like(no_drift)/(len(no_drift)), zorder=3, label="__nolegend__")
-axs[1].vlines(np.mean(no_drift), 0, 0.04, color='#f781bf', zorder=4, label=r"$\overline{\Delta\varphi}=%1.2f,\ \sigma=%1.2f\degree$" %(np.mean(no_drift), np.std(no_drift)))
-#axs[1].text(0.5, -0.2, "b)", transform=axs[1].transAxes, horizontalalignment = 'center', fontsize = 10)
-#axs[1].text(0.79, 0.92,(r"$\overline{\Delta\varphi} = %1.2f \pm %1.4f \degree$" % (np.mean(ref_phase), np.mean(ref_phase)*1.96*np.std(ref_phase)/np.sqrt(len(ref_phase)))), transform=axs[1].transAxes, fontsize=8, verticalalignment='bottom', bbox=props)
-axs[1].set_ylim([0,0.05])
-axs[1].set_xlim([8.7, 9.1])
-axs[1].yaxis.set_major_locator(MaxNLocator(5)) 
-axs[1].xaxis.set_major_locator(MaxNLocator(5)) 
-axs[1].legend()
-
+axs.hist(no_drift, bins=n_bins, weights=np.ones_like(no_drift)/(len(no_drift)), zorder=3, label="__nolegend__")
+axs.vlines(np.mean(no_drift), 0, 0.04, color='#f781bf', zorder=4, label=r"$\overline{\Delta\varphi}=%1.2f,\ \sigma=%1.2f\degree$" %(np.mean(no_drift), np.std(no_drift)))
+#axs.text(0.5, -0.2, "b)", transform=axs.transAxes, horizontalalignment = 'center', fontsize = 10)
+#axs.text(0.79, 0.92,(r"$\overline{\Delta\varphi} = %1.2f \pm %1.4f \degree$" % (np.mean(ref_phase), np.mean(ref_phase)*1.96*np.std(ref_phase)/np.sqrt(len(ref_phase)))), transform=axs.transAxes, fontsize=8, verticalalignment='bottom', bbox=props)
+axs.set_ylim([0,0.05])
+axs.set_xlim([8.7, 9.1])
+axs.yaxis.set_major_locator(MaxNLocator(5)) 
+axs.xaxis.set_major_locator(MaxNLocator(5)) 
+axs.legend()
 
 plt.tight_layout()
-plt.savefig("ref_phase_meas.pdf",dpi=600,bbox_inches = 'tight')
+plt.savefig("ref_phase_hist.pdf",dpi=600,bbox_inches = 'tight')
 plt.show()
 
 

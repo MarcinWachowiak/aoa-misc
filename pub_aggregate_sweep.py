@@ -81,7 +81,7 @@ decimation = int(1e3)
 n_skip_samples = int(2000)
 
 n_meas = list(range(50))
-dir = "/home/marcin/Desktop/freq_sweep_eval/"
+dir = "/home/marcin/Desktop/aoa_pub_files/freq_sweep_eval/"
 
 freq_start = 350e6
 freq_stop = 6e9

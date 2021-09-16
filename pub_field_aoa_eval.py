@@ -24,7 +24,7 @@ rc('text.latex', preamble=r'\usepackage{gensymb}')
 inches_per_pt = 1.0/72.27               # Convert pt to inches
 golden_mean = (np.sqrt(5)-1.0)/2.0      # Aesthetic ratio
 fig_width = 2.3622  # width in inches
-fig_height =fig_width*golden_mean*3       # height in inches
+fig_height =fig_width*golden_mean*1.5       # height in inches
 fig_size = [fig_width,fig_height]
 
 params = {'backend': 'ps',
@@ -194,7 +194,7 @@ sampl_rate = int(1e6)
 decimation = int(1024)
 n_skip_samples = int(1000)
 
-dir_name = "/home/marcin/Desktop/aoa_meas/"
+dir_name = "/home/marcin/Desktop/aoa_pub_files/aoa_meas/"
 
 aoa_err = list()
 aoa_err_mov = list()
@@ -214,12 +214,12 @@ for file in aoa_mov_err_files:
 print("\nFinished reading!\n")
 
 #%%
-fig, (ax1, ax2) = plt.subplots(2, 1)
+fig, ax1 = plt.subplots(1, 1)
 n_bins = 100
 ax1.hist(aoa_err[0], n_bins, alpha = 0.9, weights=np.ones_like(aoa_err[0])/(len(aoa_err[0])), zorder=4)
 ax1.hist(aoa_err_mov[0], n_bins, alpha = 0.9, weights=np.ones_like(aoa_err_mov[0])/(len(aoa_err_mov[0])), zorder=3)
 ax1.set_xlim([-10,10])
-ax1.set_ylim([0.0,0.05])
+ax1.set_ylim([0.0,0.06])
 
 ax1.set_title("Source at $90\degree$")
 ax1.legend([r"$\overline{\theta}_{stat.}=%1.1f, \sigma=%1.1f\degree $" %(np.mean(aoa_err[0]), np.std(aoa_err[0])), r"$\overline{\theta}_{mov.}=%1.1f, \sigma=%1.1f \degree$" %(np.mean(aoa_err_mov[0]), np.std(aoa_err_mov[0]))])
@@ -227,10 +227,15 @@ ax1.set_ylabel("Probability")
 ax1.set_xlabel('AoA error [$\degree$]')
 ax1.grid(zorder=0)
 
+plt.tight_layout()
+plt.savefig("aoa_field_acc_90.pdf",dpi=600,bbox_inches = 'tight')
+plt.show()
+
+fig, ax2 = plt.subplots(1, 1)
 ax2.hist(aoa_err[1], n_bins, alpha = 0.9, weights=np.ones_like(aoa_err[1])/(len(aoa_err[1])), zorder=4)
 ax2.hist(aoa_err_mov[1], n_bins, alpha = 0.9, weights=np.ones_like(aoa_err_mov[1])/(len(aoa_err_mov[1])), zorder=3)
 ax2.set_xlim([-10,10])
-ax2.set_ylim([0.0,0.05])
+ax2.set_ylim([0.0,0.06])
 ax2.grid(zorder=0)
 ax2.set_ylabel("Probability")
 
@@ -238,6 +243,6 @@ ax2.set_title("Source at $135\degree$")
 ax2.set_xlabel('AoA error [$\degree$]')
 ax2.legend([r"$\overline{\theta}_{stat.}=%1.1f, \sigma=%1.1f\degree$" %(np.mean(aoa_err[1]), np.std(aoa_err[1])), r"$\overline{\theta}_{mov.}=%1.1f, \sigma= %1.1f\degree $" %(np.mean(aoa_err_mov[1]), np.std(aoa_err_mov[1]))])
 plt.tight_layout()
-plt.savefig("aoa_field_accuracy.pdf",dpi=600,bbox_inches = 'tight')
+plt.savefig("aoa_field_acc_135.pdf",dpi=600,bbox_inches = 'tight')
 plt.show()
 # %%

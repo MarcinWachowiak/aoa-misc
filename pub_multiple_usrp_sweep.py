@@ -81,7 +81,7 @@ decimation = int(1e3)
 n_skip_samples = int(2000)
 
 n_meas = list(range(1))
-meas_dirs = ["/home/marcin/Desktop/usrp_dev_comparison/freq_sweep_eval_usrp5/", "/home/marcin/Desktop/usrp_dev_comparison/freq_sweep_eval_usrp3/", "/home/marcin/Desktop/usrp_dev_comparison/freq_sweep_eval_usrp4/", "/home/marcin/Desktop/usrp_dev_comparison/freq_sweep_eval_usrp6/", "/home/marcin/Desktop/usrp_dev_comparison/freq_sweep_eval_usrp7/", "/home/marcin/Desktop/usrp_dev_comparison/freq_sweep_eval_usrp8/"]
+meas_dirs = ["/home/marcin/Desktop/aoa_pub_files/usrp_dev_comparison/freq_sweep_eval_usrp5/", "/home/marcin/Desktop/aoa_pub_files/usrp_dev_comparison/freq_sweep_eval_usrp3/", "/home/marcin/Desktop/aoa_pub_files/usrp_dev_comparison/freq_sweep_eval_usrp4/", "/home/marcin/Desktop/aoa_pub_files/usrp_dev_comparison/freq_sweep_eval_usrp6/", "/home/marcin/Desktop/aoa_pub_files/usrp_dev_comparison/freq_sweep_eval_usrp7/", "/home/marcin/Desktop/aoa_pub_files/usrp_dev_comparison/freq_sweep_eval_usrp8/"]
 
 freq_start = 350e6
 freq_stop = 6e9
